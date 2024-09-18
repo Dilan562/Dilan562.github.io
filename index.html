@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio</title>
+    <link rel="stylesheet" href="css/styles1.css">
+</head>
+<body>
+    <div class="fixed-images">
+        <a href="https://www.example1.com" target="_blank">
+            <img src="assets/img/vecteezy_linkedin-logo-png-linkedin-logo-transparent-png-linkedin_23986970.png" alt="Linkedin" class="bounce-image">
+        </a>
+        <a href="https://www.example2.com" target="_blank">
+            <img src="assets/img/pngwing.com (1).png" alt="Descripción de la imagen 2" class="bounce-image">
+        </a>
+        <a href="https://www.example3.com" target="_blank">
+            <img src="assets/img/pngwing.com (2).png" alt="Descripción de la imagen 3" class="bounce-image">
+        </a>
+    </div>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#portafolio">Portafolio</a>
+            <a href="#sobre-mi">Sobre mí</a>
+            <a href="#habilidades">Habilidades</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+    </nav>
+
+    <section id="inicio">
+        <div class="section-background"></div>
+        <img src="assets/img/dilan.jpg" alt="Yessir" id="Yessir" class="Yessir" name="Yessir">
+        <h1>Dilan Ivan Palta Reyes</h1>
+        <h4>Tecnologo en desarrollo de software</h4> <br>
+        <h4>Aspirante a diseñador grafico</h4>
+    </section>
+    <section id="portafolio">
+        <div class="section-background"></div>
+        <h1>Portafolio</h1>
+        
+        <!-- Caja de información -->
+        <div class="info-box" id="info-box">
+            <p>Haz clic para ver más detalles</p>
+        </div>
+    
+        <!-- Ventana emergente -->
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <span class="close-button" id="close-button">&times;</span>
+                <h2>Información del Proyecto</h2>
+                <p>Pondré algo cuando tenga algo</p>
+            </div>
+        </div>
+    </section>
+    <section id="sobre-mi">
+        <div class="section-background"></div>
+        <h1>Sobre mí</h1>
+        <p>-Desarrollador de software dedicado al desarrollo y diseño de paginas web usando html.</p> <br>
+        <p>me quiero matar!!!</p>
+    </section>
+    <section id="habilidades">
+        <div class="section-background"></div>
+        <h1>Habilidades</h1>
+        <p>-Desarrollador web.</p><br>
+        <p>-manejo de excel.</p><br>
+        <p>-la vida es como el excel, crees que le sabes pero no.</p>
+    </section>
+    <section id="contacto">
+        <div class="section-background"></div>
+        <h1>Contactame</h1>
+        
+        <form id="contact-form">
+            <label for="name"></label>
+            <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
+            
+            <label for="email"></label>
+            <input type="email" id="email" name="email" placeholder="Ingresa tu email" required>
+            
+            <label for="phone"></label>
+            <input type="tel" id="phone" name="phone" placeholder="Ingresa tu teléfono" required>
+            
+            <label for="message"></label>
+            <textarea id="message" name="message" placeholder="Escribe tu mensaje" required></textarea>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <script>
+
+
+        
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('contact-form');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita el envío del formulario por defecto
+
+        // Obtiene los valores de los campos del formulario
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const message = document.getElementById('message').value;
+
+        // Aquí puedes agregar la lógica para enviar los datos del formulario a un servidor
+
+        // Ejemplo de mensaje de éxito
+        alert(`Gracias por tu mensaje, ${name}! Nos pondremos en contacto contigo pronto.`);
+        
+        // Limpia el formulario
+        form.reset();
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const sections = document.querySelectorAll('section');
+    const infoBox = document.getElementById('info-box');
+    const popup = document.getElementById('popup');
+    const closeButton = document.getElementById('close-button');
+
+    function updatePopupColor() {
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const docHeight = document.documentElement.scrollHeight;
+        const maxScroll = docHeight - windowHeight;
+        
+        sections.forEach((section, index) => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const pageProgress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+            let color1, color2;
+
+            if (index === 0) {
+                color1 = startColor;
+                color2 = interpolateColor(startColor, endColor, pageProgress);
+            } else {
+                color1 = interpolateColor(startColor, endColor, (pageProgress * index) / (sections.length - 1));
+                color2 = interpolateColor(startColor, endColor, (pageProgress * (index + 1)) / (sections.length - 1));
+            }
+
+            // Ajusta el color de la ventana emergente según la sección visible
+            if (scrollTop >= sectionTop - windowHeight / 2 && scrollTop < sectionTop + sectionHeight) {
+                const bg = section.querySelector('.section-background');
+                bg.style.background = `linear-gradient(to bottom, ${color1}, ${color2})`;
+
+                popup.querySelector('.popup-content').style.backgroundColor = color1;
+            }
+        });
+    }
+
+    // Mostrar la ventana emergente
+    infoBox.addEventListener('click', () => {
+        popup.style.display = 'flex'; // Muestra la ventana emergente
+        updatePopupColor(); // Actualiza el color de la ventana emergente
+    });
+
+    // Cerrar la ventana emergente
+    closeButton.addEventListener('click', () => {
+        popup.style.display = 'none'; // Oculta la ventana emergente
+    });
+
+    // Cerrar la ventana emergente si se hace clic fuera de la ventana emergente
+    window.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            popup.style.display = 'none'; // Oculta la ventana emergente
+        }
+    });
+
+    // Actualiza el color del popup al hacer scroll
+    window.addEventListener('scroll', updatePopupColor);
+});
+        document.addEventListener("DOMContentLoaded", function() {
+    // Función para el desplazamiento suave
+    function smoothScroll(targetId) {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop,
+                behavior: "smooth"
+            });
+        }
+    }
+
+    // Manejar clics en los enlaces de la barra de navegación
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+            e.preventDefault(); // Evita el comportamiento por defecto del enlace
+            smoothScroll(anchor.getAttribute('href'));
+        });
+    });
+
+    // El resto del código de scroll y color...
+});
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll('section');
+            const links = document.querySelectorAll(".nav-links a");
+            const navbar = document.querySelector(".navbar");
+            const startColor = '#4D60A5'; // Morado claro
+            const endColor = '#400D4C';   // Morado oscuro
+            const bodyStartColor = '#ffffff'; // Blanco
+            const bodyEndColor = '#000000';   // Negro
+            const textStartColor = '#ffffff';   // Negro
+            const textEndColor = '#ffffff'; // Blanco
+
+    
+            // Cambia el gradiente de fondo y el estado activo al hacer scroll
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset;
+                const windowHeight = window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+                const maxScroll = docHeight - windowHeight;
+    
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+    
+                    // Calcular el progreso de la sección en la vista
+                    const sectionProgress = Math.min(1, Math.max(0, (scrollTop - sectionTop + windowHeight) / (sectionHeight + windowHeight)));
+                    const pageProgress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+    
+                    let color1, color2;
+    
+                    if (index === 0) {
+                        color1 = startColor;
+                        color2 = interpolateColor(startColor, endColor, pageProgress);
+                    } else {
+                        color1 = interpolateColor(startColor, endColor, (pageProgress * index) / (sections.length - 1));
+                        color2 = interpolateColor(startColor, endColor, (pageProgress * (index + 1)) / (sections.length - 1));
+                    }
+    
+                    // Aplica el gradiente de fondo al contenedor
+                    const bg = section.querySelector('.section-background');
+                    bg.style.background = `linear-gradient(to bottom, ${color1}, ${color2})`;
+    
+                    // Resaltar el enlace activo
+                    const link = document.querySelector(`.nav-links a[href="#${section.id}"]`);
+                    if (scrollTop >= sectionTop - windowHeight / 2 && scrollTop < sectionTop + sectionHeight) {
+                        link.classList.add('active');
+                        link.style.backgroundColor = color1; // Resaltar con el color de la sección
+                    } else {
+                        link.classList.remove('active');
+                        link.style.backgroundColor = ''; // Resetear color de fondo
+                    }
+    
+                    // Si estamos en la última sección
+                    if (scrollTop >= maxScroll) {
+                        const contactLink = document.querySelector(`.nav-links a[href="#contacto"]`);
+                        contactLink.classList.add('active');
+                        contactLink.style.backgroundColor = interpolateColor(startColor, endColor, 1); // Último color del gradiente
+                    }
+                });
+    
+                // Cambia el fondo de la página
+                document.body.style.backgroundColor = interpolateColor(bodyStartColor, bodyEndColor, scrollTop / maxScroll);
+    
+                // Cambia el color del texto
+                const textColor = interpolateColor(textStartColor, textEndColor, scrollTop / maxScroll);
+                document.querySelectorAll('h1, h2, h3, h4, h5, p').forEach(el => {
+                    el.style.color = textColor;
+                });
+            });
+    
+            function interpolateColor(color1, color2, factor) {
+                const result = color1.slice(1).match(/.{2}/g).map((hex, i) => {
+                    const val1 = parseInt(hex, 16);
+                    const val2 = parseInt(color2.slice(1).match(/.{2}/g)[i], 16);
+                    return Math.round(val1 + factor * (val2 - val1)).toString(16).padStart(2, '0');
+                });
+                return `#${result.join('')}`;
+            }
+    
+            let prevScrollPos = window.pageYOffset;
+    
+            // Animación para mostrar u ocultar la barra al hacer scroll
+            window.onscroll = function() {
+                let currentScrollPos = window.pageYOffset;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    
+                // Solo contraer la barra si no estamos en el final de la página
+                if (currentScrollPos < maxScroll - 10) { // Ajusta el valor para una transición más suave
+                    if (prevScrollPos > currentScrollPos) {
+                        navbar.classList.remove("hidden");
+                    } else {
+                        navbar.classList.add("hidden");
+                    }
+                }
+    
+                // Siempre mostrar la barra cuando estamos en el final de la página
+                if (currentScrollPos >= maxScroll - 10) { // Ajusta el valor para una transición más suave
+                    navbar.classList.remove("hidden");
+                }
+    
+                prevScrollPos = currentScrollPos;
+            };
+        });
+    </script>
+    
+
+</body>
+</html>
+
